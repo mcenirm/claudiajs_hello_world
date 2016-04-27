@@ -4,7 +4,7 @@
   "description": "Hello World Exercise for ClaudiaJS",
   "main": "index.js",
   "scripts": {
-    "test": "node spec/support/jasmine-runner.js"
+    "test": "./node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",
