@@ -1,0 +1,24 @@
+{
+  "name": "claudiajs_hello_world",
+  "version": "1.0.0",
+  "description": "Hello World Exercise for ClaudiaJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node spec/support/jasmine-runner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcenirm/claudiajs_hello_world.git"
+  },
+  "keywords": [
+    "helloworld",
+    "exercise",
+    "claudiajs"
+  ],
+  "author": "Michael McEniry",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mcenirm/claudiajs_hello_world/issues"
+  },
+  "homepage": "https://github.com/mcenirm/claudiajs_hello_world#readme"
+}
