@@ -1,0 +1,56 @@
+#!/bin/bash
+
+aws_user_json=$( aws iam get-user )
+aws_user_arn=$( jq -r '.User.Arn' <<<"$aws_user_json" )
+aws_user_name=$( jq -r '.User.UserName' <<<"$aws_user_json" )
+aws_account_id=$( cut -d: -f5 <<<"$aws_user_arn" )
+
+jq -S . <<EOF
+{
+  "Statement": [
+    {
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:DeleteRolePolicy",
+        "iam:PassRole",
+        "iam:PutRolePolicy"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::${aws_account_id}:role/${aws_user_name}-executor"
+      ]
+    },
+    {
+      "Action": [
+        "iam:GetUser"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::${aws_account_id}:user/${aws_user_name}"
+      ]
+    },
+    {
+      "Action": [
+        "lambda:CreateFunction"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Action": [
+        "lambda:CreateAlias",
+        "lambda:DeleteFunction",
+        "lambda:UpdateAlias"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:lambda:us-east-1:${aws_account_id}:function:${aws_user_name}"
+      ]
+    }
+  ],
+  "Version": "2012-10-17"
+}
+EOF
