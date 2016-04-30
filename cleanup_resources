@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+NAME=${NAME:-$( jq -r .name package.json )}
+export AWS_PROFILE=${AWS_PROFILE:-${NAME}}
+
+EXE_ROLE=${NAME}-executor
+
+api_id=$( aws apigateway get-rest-apis | jq --arg apiname "$NAME" -r '.items[] | select(.name==$apiname) | .id' )
+
+set -x
+
+[ -n "$api_id" ] && aws apigateway delete-rest-api --rest-api-id "$api_id"
+aws lambda delete-function --function-name "$NAME"
+aws iam delete-role-policy --role-name "$EXE_ROLE" --policy-name "log-writer"
+aws iam delete-role --role-name "$EXE_ROLE"
