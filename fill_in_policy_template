@@ -41,8 +41,10 @@ jq -S . <<EOF
     },
     {
       "Action": [
+        "lambda:AddPermission",
         "lambda:CreateAlias",
         "lambda:DeleteFunction",
+        "lambda:GetPolicy",
         "lambda:UpdateAlias"
       ],
       "Effect": "Allow",
